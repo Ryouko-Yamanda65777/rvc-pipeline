@@ -3,13 +3,17 @@
 
 
 # run_inference.py
-from lib.infer import infer_audio
 
-# Define the parameters for inference
 model_name = "your_model_name"  # Replace with the name of your model
 audio_path = "path/to/your/audio.wav"  # Replace with the path to your input audio file
 
 # Optional parameters (these are just examples; adjust as needed)
+
+```
+from lib.infer import infer_audio
+
+# Define the parameters for inference
+
 params = {
     "f0_change": 2,
     "f0_method": "rmvpe+",
