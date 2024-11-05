@@ -1,34 +1,42 @@
-# **Harmonify (RVC No UI Colab)**
-https://colab.research.google.com/drive/1X8YR4Ruv7zzY8YAMPTfC7hkxqT_d4Q5d
+# RVC pipeline
 
-## **Credits**
-[Eempostor](https://discordapp.com/users/818050831034613771) - Made everything work together, Notebook creator
 
-[Applio](https://github.com/IAHispano/Applio-RVC-Fork) by [IAHispano](https://github.com/IAHispano) - The repo this colab is based on
 
-[CNChTu](https://github.com/CNChTu) - [FCPE](https://github.com/CNChTu/FCPE) F0 method
+# run_inference.py
+from lib.infer import infer_audio
 
-[So Vits SVC](https://github.com/svc-develop-team/so-vits-svc) - [FCPE](https://github.com/CNChTu/FCPE) F0 method script
+# Define the parameters for inference
+model_name = "your_model_name"  # Replace with the name of your model
+audio_path = "path/to/your/audio.wav"  # Replace with the path to your input audio file
 
-[ChatGPT](https://chat.openai.com/) - Helper
+# Optional parameters (these are just examples; adjust as needed)
+params = {
+    "f0_change": 2,
+    "f0_method": "rmvpe+",
+    "min_pitch": "50",
+    "max_pitch": "1100",
+    "crepe_hop_length": 128,
+    "index_rate": 0.75,
+    "filter_radius": 3,
+    "rms_mix_rate": 0.25,
+    "protect": 0.33,
+    "split_infer": True,
+    "min_silence": 500,
+    "silence_threshold": -50,
+    "seek_step": 1,
+    "keep_silence": 100,
+    "do_formant": False,
+    "quefrency": 0,
+    "timbre": 1,
+    "f0_autotune": False,
+    "audio_format": "wav",
+    "resample_sr": 0,
+}
 
-[Phind](https://www.phind.com/) - Helper
+# Run the inference
+output_path = infer_audio(model_name, audio_path, **params)
 
-If you have any suggestions or problems on this colab, dm [me](https://discordapp.com/users/818050831034613771) on discord.
-
-## **Changelogs**
-9/3/2024 | Huge changes
-- Pitch extraction `fcpe` now uses the `torchfcpe` library. You can still use the previous version with `fcpe_legacy`
-- `MIN_PITCH` and `MAX_PITCH` now accepts pitch notations
-- Fixed error when running inference without a GPU (GPU is still recommended as its way faster and more stable)
-- Fixed error when running `hybrid` with `pm`, `dio`, and `harvest`
-- Overhaulled the directory structure and some code
-
-14/1/2024 | Fixes
-- Fixed `Cannot retrieve the public link of the file` issue while downloading models from google drive
-
-10/1/2024 | Fixes
-- Fixed `Cannot retrieve the public link of the file` issue on installation
-
-12/12/2023 | Small adjustments
-- Moved `DOWNLOAD` and `SAVE_TO_DRIVE` option on inference cell into a new cell
+if output_path:
+    print(f"Inference completed successfully. Output saved to: {output_path}")
+else:
+    print("Inference failed.")
